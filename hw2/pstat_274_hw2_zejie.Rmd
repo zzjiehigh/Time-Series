@@ -1,0 +1,25 @@
+---
+title: "pstat274_hw2_zejie"
+output: pdf_document
+date: "2023-10-16"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## 5
+```{r}
+set.seed(666)
+ma2 <- arima.sim(model = list(ma = c(2,-8)), n = 300)
+acf_300 <- acf(ma2, type = "correlation", plot = T)
+result1 <- acf_300$acf[3]
+result1
+```
+
+```{r}
+ma2 <- arima.sim(model = list(ma = c(2,-8)), n = 10000)
+acf_10000 <- acf(ma2, type = "correlation", plot = T)
+result2 <- acf_10000$acf[3]
+result2
+```

@@ -1,0 +1,178 @@
+---
+title: "Psatat274_hw4_sandy"
+output: pdf_document
+date: "2023-10-30"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Note: In all problems, $\left\{Z_{t}\right\} \sim W N\left(0, \sigma_{Z}^{2}\right)$ denotes white noise, and $B$ denotes the backshift operator $B X_{t}=X_{t-1}$.
+
+## 1. Determine which of the following indicates that a nonstationary time series can be represented as a random walk:
+
+I. A plot of the series detects a linear trend and increasing variability.
+
+II. The differenced series follows a white noise model.
+
+III. The standard deviation of the original series is greater than the standard deviation of the differenced series.
+
+Answer: All of criterions can represent the random walk.
+
+I. A random walk often displays a trend-like appearance with potential increasing variability due to the cumulative sum of random errors over time. II. Differencing random walk will results in white noise model since it remove the unit root characteristic of random walk. III. Random walk also shows a broader variance on values than its differenced series as random walk accumulates noise over time.
+
+## 2. Identify the following time series model as a specific ARIMA or SARIMA model:
+
+(a) $X_{t}=1.5 X_{t-1}-0.5 X_{t-2}+Z_{t}-0.1 Z_{t-1}$
+
+Answer: it is ARIMA(1,1,1) model
+
+$X_{t}-1.5 X_{t-1}+0.5X_{t-2} = Z_{t}-0.1 Z_{t-1}$
+
+$(1 - 1.5B +0.5B^2)X_{t} = (1-0.1B)Z_{t}$
+
+$(1 - 0.5B)(1-B)X_{t} = (1-0.1B)Z_{t}$
+
+$\phi(B)(1-B)X_{t} = \theta(B)Z_{t}$
+
+Polynomial $\theta(z) = 1-0.1z$ corresponds to q = 1 and has one root z = 10 \> 1. Polynomial $\phi(z)=1-0.5z$ corresponds to p = 1. This is ARIMA(1,1,1).
+
+(b) $X_{t}=0.5 X_{t-1}+X_{t-4}-0.5 X_{t-5}+Z_{t}-0.3 Z_{t-1}$
+
+Answer: it is $\operatorname{SARIMA}(1, 0, 1) \times(0, 1, 0)_{4}$ model
+
+$X_{t}-0.5 X_{t-1}-X_{t-4}+0.5 X_{t-5}=Z_{t}-0.3 Z_{t-1}$
+
+$(1-0.5B-B^4+0.5B^5)X_{t}=(1-0.3B)Z_{t}$
+
+$(1-0.5B-B^4+0.5B^5)X_{t}=\theta(B)Z_{t}$
+
+$(1-0.5B)(1-B^4)X_{t}=\theta(B)Z_{t}$
+
+## 3.
+
+(a) For the following $\operatorname{SARIMA}(p, d, q) \times(P, D, Q)_{s}$ models, specify parameters $p, d, q, P, D, Q$ and $s$, and write corresponding equations:
+
+Hint: It is helpful to first write equations in the form $\phi(B) \Phi\left(B^{s}\right)(1-B)^{d}\left(1-B^{s}\right)^{D} X_{t}=\theta(B) \Theta\left(B^{s}\right) Z_{t}, Z_{t} \sim$ $W N\left(0, \sigma_{Z}^{2}\right)$, then proceed to rewrite the equations in the form that eliminates use of the backshift operator $B$.
+
+i.  $\operatorname{SARIMA}(2,1,1) \times(0,1,1)_{6}$, for p=2,d=1,q=1,P=0,D=1,Q=1,s=6, SARIMA could be
+
+$(1 - \phi_1B-\phi_2B^2)(1-B)(1-B^6)X_t =(1+\theta_1B)(1+\Theta_1B^6)Z_t$
+
+ii. $\operatorname{SARIMA}(1,1,2) \times(2,0,1)_{4}$. for p=1,d=1,q=2,P=2,D=0,Q=1,s=4, SARIMA could be
+
+$(1 - \phi_1B)(1-\Phi_1B^4-\Phi_2B^8)(1-B)X_t=(1+\theta_1B+\theta_2B^2)(1+\Theta_1B^4)Z_t$
+
+(b) For the following processes $\left\{X_{t}\right\}$, identify SARIMA $(p, d, q) \times(P, D, Q)_{s}$ model:
+
+```{=html}
+<!-- -->
+```
+i.  $\left(1-B^{6}\right)^{2} X_{t}=(1-0.3 B) Z_{t}$;
+
+Since p = 0, d = 0, q = 1, P = 0, D = 2, Q = 0, s = 6, this is $\operatorname{SARIMA}(0,0,1) \times(0,2,0)_{6}$ model.
+
+ii. $X_{t}=0.3 X_{t-12}+Z_{t}$ \<=\> $(1-0.3B^{12})X_{t} = Z_{t}$
+
+Since p = 0, d = 0, q = 0, P = 1, D = 0, Q = 0, s = 12, this is $\operatorname{SARIMA}(0,0,0) \times(1,0,0)_{12}$ model.
+
+(c) You are given a time series model where PACF is zero except for lags 12 and 24 . Which model will have this pattern?
+
+$\operatorname{SARIMA}(0,0,0) \times(2,0,0)_{12}$ model will have this pattern since it is a pure $AR(1)_{s}$, its PACF should cuts off after lag $P_{s}$.
+
+## 4. Write the form of the model equation for a SARIMA $(0,0,1)(0,0,1)_{12}$ model.
+
+A. $X_{t}=Z_{t}+\theta_{1} Z_{t-1}+\theta_{2} Z_{t-2}$.
+
+B. $X_{t}=Z_{t}+\theta_{1} Z_{t-1}+\theta_{2} Z_{t-2}+\theta_{1} \theta_{2} Z_{t-3}$.
+
+C. $X_{t}=Z_{t}+\theta_{1} Z_{t-1}+\theta_{2} Z_{t-2}+\theta_{1} \theta_{2} Z_{t-12}$.
+
+D. $X_{t}=Z_{t}+\theta_{1} Z_{t-1}+\theta_{2} Z_{t-11}+\theta_{1} \theta_{2} Z_{t-12}$.
+
+E. $X_{t}=Z_{t}+\theta_{1} Z_{t-1}+\theta_{2} Z_{t-12}+\theta_{1} \theta_{2} Z_{t-13}$.
+
+Answer: E
+
+SARIMA $(0,0,1)(0,0,1)_{12}$ model could express as $X_t =(1+\theta_1B)(1+\Theta_1B^{12})Z_t$ \<=\> $X_t =(1+ \Theta_1B^{12}+ \theta_1B+\theta_1B\Theta_1B^{12})Z_t$. only E match with the expression.
+
+## 5. You are given PACF for two stationary processes:
+
+(a) For time series $\left\{X_{t}, t=1,2, \ldots\right\}$ : $\phi_{11}=0, \phi_{22}=0.36, \phi_{k k}=0$ for $k \geq 3$.
+
+$X_t = 0.36X_{t-2}+Z_t$
+
+(b) For time series $\left\{Y_{t}, t=1,2, \ldots\right\}$ : $\phi_{11}=0.7, \phi_{k k}=0$ for $k \geq 2$.
+
+$Y_t = 0.7Y_{t-1} + Z_t$
+
+In each case, write an appropriate equation for the corresponding stationary process.
+
+## 6. For the processes $X_{t}=0.4 X_{t-1}+Z_{t}-0.7 Z_{t-1}$,
+
+(i) Simulate and plot 100 values of the processes;
+
+```{r}
+set.seed(1234)
+ar1234 <- arima.sim(model = list (ar=c(0.4),ma=c(-0.7)),n=100,sd=1)
+plot.ts(ar1234, main ='ARMA(1,1)')
+```
+
+(ii) Compute and graph their theoretical ACF and PACF using R.
+
+```{r}
+# theoretical ACF
+theo_acf <- ARMAacf(ar =0.4,ma=-0.7,lag.max=18,pacf = FALSE)
+theo_acf
+```
+
+```{r}
+# theoretical pacf
+theo_pacf <- ARMAacf(ar =0.4,ma=-0.7,lag.max=18,pacf = TRUE)
+theo_acf
+```
+
+(iii) Compute and graph their sample ACF and PACF using R. How do sample functions compare to their theoretical counterparts?
+
+```{r}
+op <- par(mfrow=c(1,2))
+
+plot(theo_acf,type = "h", main = "Theoretical ACF", ylab = expression(rho[X](k)),xlab ="k",ylim = c(-1,1))
+abline(h = 0)
+
+# plot the theoretical ACF and PACF
+plot(theo_pacf,type = "h", main = "Theoretical PACF", ylab = expression(rho[X](k)),xlab ="k",ylim = c(-1,1))
+abline(h = 0)
+```
+
+```{r}
+op <- par(mfrow=c(1,2))
+
+# Sample ACF
+acf(ar1234, lag.max = 18, main = "Sample ACF" ,ylab = expression(rho[X](k)), xlab = "k", ylim = c(-1,1))
+
+# Sample PACF
+pacf(ar1234, lag.max = 18, main = "Sample PACF" ,ylab = expression(rho[X](k)), xlab = "k", ylim = c(-1,1))
+```
+
+Both theoretical acf and pacf shows a trend of decay, while sample acf and pacf lack of decaying. The theoretical acf is significant at lag 1 and other close to zero, whereas sample acf is not only significant at lag but also at lag 8 and close to the confident interval line at lag 9 and lag 16.
+
+(iv) Analyze smoothness of the simulated processes using their ACF's.
+
+Because most of the sample ACF are close to zero or inside the confident interval, we can claim that it is not very smooth.
+
+Please include the code with clear comments explaining the meaning of the code. Make sure to label the graphs.
+
+## GE 1. Let $\left\{Y_{t}\right\}$ be the AR(1) plus noise time series defined by $Y_{t}=X_{t}+W_{t}$, where $\left\{W_{t}\right\} \sim W N\left(0, \sigma_{W}^{2}\right),\left\{X_{t}\right\}$ is the AR(1) process $X_{t}-\phi X_{t-1}=Z_{t},\left\{Z_{t}\right\} \sim W N\left(0, \sigma_{Z}^{2}\right),|\phi|<1$, and $E\left(W_{s} Z_{t}\right)=0$ for all $t, s$.
+
+(a) Show that $\left\{Y_{t}\right\}$ is stationary and find its autocovariance function.
+
+(b) Show that the time series $U_{t}:=Y_{t}-\phi Y_{t-1}$ is 1-correlated (i.e., $\gamma_{U}(h)=0$ for $h>1$ ) and hence is MA(1) procesbs.
+
+(c) Conclude from (b) that $\left\{Y_{t}\right\}$ is an ARMA $(1,1)$ process and express the three parameters of this model in terms of $\phi, \sigma_{W}^{2}$ and $\sigma_{Z}^{2}$.
+
+## GE 2. Find the ACVF, ACF and PACF f/or $\left\{X_{t}\right\}$ when $X_{t}=\Phi X_{t-4}+Z_{t},|\Phi|<1$.
+
+
+

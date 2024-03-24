@@ -1,0 +1,16 @@
+---
+title: "pstat274hw3"
+output: pdf_document
+date: "2023-10-26"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Note: {Zt} ∼ WN(0,σZ2 ) denotes white noise.
+## 1. You are given the following ARMA(p,q) model: Xt = 25 Xt−1 − 2Xt−2 + 21 Xt−3 + Zt − 12 Zt−1. Which of the following statements is false?
+A. The model is non-stationary.
+B. The model is ARMA(3,1).
+C. The model is invertible.
+D. The model can be restated as ARMA(2,0). E. None of the above.

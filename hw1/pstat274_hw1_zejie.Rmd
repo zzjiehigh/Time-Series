@@ -1,0 +1,96 @@
+---
+title: "hw1_zejie8913006"
+output: pdf_document
+date: "2023-10-11"
+---
+
+## 1. Deterministic and stochastic trends. Stationarity.
+```{r}
+cat("Answer : A\n")
+cat("Explanation:\nI is true because deterministic trend is a function estimated
+    by regression, and it changes slowly, making it extrapolated.\nII is false 
+    because linear models include trends, which violate the rule of a constant 
+    mean required for stantionary time series.\nIII is fasle because the 
+    autocovariance function can have values greater than 1 in magnitude. ")
+```
+## 2. Random walk and stationarity 
+```{r}
+# answer on below
+```
+
+## 3. Calculation of sample acf. 
+```{r}
+# Create a data frame with a stock prices during each day
+Xt <- data.frame(
+    Number = 1:10,
+    price = c(538, 548, 528, 608, 598, 589, 548, 514, 501, 498)
+)
+
+# Calculate the mean of the "Value" column
+mean_Xt <- mean(Xt$price);mean_Xt
+
+## To estimate autocorrelation at lag 3
+lag <- 3
+n <- 10
+
+# To compute the covariance of Xt and X(t+3)
+autocov_3 <- sum((Xt$price[1:(n - lag)] - mean_Xt) * (Xt$price[(lag + 1):n] - mean_Xt)) ;autocov_3
+
+# To compute the variance of Xt
+variance <- sum((Xt$price - mean_Xt)^2) ;variance
+
+# Computing autocorrelation by dividing covariance with variance
+autocorr_3 <- autocov_3 / variance
+cat("autocorr_3 :", autocorr_3, "\n")
+# answer on below
+```
+## 4. Polyroot command in R.
+```{r}
+root_of_f <- polyroot(c(1, -5))
+cat("Root of f(z): ")
+cat(root_of_f, sep=", ")
+
+root_of_g <- polyroot(c(1, -0.75, 0.125))
+cat("\nRoot of g(z): ")
+cat(root_of_g, sep=", ")
+# answer on below
+```
+## 5. Model identification. 
+```{r}
+# answer on below
+```
+
+## 6. Please indicated True/False and explain briefly why.
+(a) False
+Explanation: for (i), it is not necessary for white noise to have 0 mean as long as it is constant, (ii) is true, (iii) also have be satisfied for meeting the  uncorrelated property. 
+(b) True
+additional proof on below
+## 7. Gaussian White Noise and its square.
+(a)
+```{r}
+set.seed(1)
+# Generate 350 observations of the Gaussian white noise Z
+Z <- rnorm(350)
+plot.ts(Z, xlab = "time", ylab = "Z") 
+acf(Z, main = "ACF")
+```
+(b)
+```{r}
+# Defining Y using Z
+Y <- Z^2
+plot.ts(Y, xlab = "time", ylab = "Y") 
+acf(Y, main = "ACF")
+```
+(c)
+- Series Z holds constant mean and variance, and series Y also do not shows trend and various variance over time. The value of mean in Z and Y on the graph looks different. Comparing only series graph is not enough for knowing whether it is stationary or not. Additional test of autocorrelation is need.
+- There is not noticeable difference in the plots of acf function between Z and Y. Combined with nearly constant mean and variance from series graph, it is highly possible that both Z and Y are stationary since both acf graph exhibits autocorrelations close to zero for all lags except at lag 0, where it is always 1. Y is described as non-Gaussian white noise due to its non-zero mean and white noise properties.
+(d)
+```{r}
+maen_y <-mean(Y);maen_y
+std_Y <- sd(Y);std_Y
+```
+The calculations indeed support my observations in (c), by considering non-zero but constant mean and variance, and uncorrelated property. More proof on below.  
+```{r}
+
+```
+

@@ -1,0 +1,76 @@
+---
+title: "lab1_zejie"
+output: pdf_document
+date: "2023-10-11"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# 1. read in the data
+```{r}
+births <- scan("http://robjhyndman.com/tsdldata/data/nybirths.dat")
+```
+# 2. Convert it into time series format
+```{r}
+births_ts = ts(births, start = c(1946,1), frequency = 12)
+births_ts
+```
+# 3. Plot the data versus time
+```{r}
+plot(births_ts, main = "Time Series from Year 1946 to 1969")
+```
+## 4. Plot the aggregated data versus time
+```{r}
+library(xts)
+ts.yearly <- apply.yearly(as.xts(births_ts), FUN = mean)
+ts.yearly
+```
+# Plot the Aggregated yearly data:
+```{r}
+plot(ts.yearly, main = "Yearly Time Series from Year 1946 to 1959")
+```
+## 5 Plot the data versus time index number from 1, 2, ...n. Add regression line and mean line to the plot and print sample size n.
+```{r}
+plot(1:length(births),births, main =
+   "Time Series from Year 1946 to 1959", type = 'l',xlab='index')
+index = 1: length(births)
+trend <- lm(births ~ index)
+abline(trend, col = "red")
+abline(h = mean(births), col = "blue")
+```
+```{r}
+length(births)
+```
+
+## 6. State whether the data looks stationary. 
+```{r}
+birthstimeseriescomponents <- decompose(births_ts)
+plot(birthstimeseriescomponents)
+```
+```{r}
+wn = rnorm(1000,0,1)
+plot(1:length(wn),wn, main =
+   "White Noise Plot", type = 'l',xlab='index')
+trend <- lm(wn ~ time(wn))
+abline(trend, col="red")
+abline(h=mean(wn) , col='blue')
+```
+## 7. Does 1946-1948 data have the same pattern as the rest of the data? If no, please cut the start of the data e.g. your data will start at Jan, 1948.
+```{r}
+select <- c(1:24)
+#eliminate data from year Jan 1946 to Dec 1947 and we therefore now have 12 years(144 obse 
+birth_split <- births[-c(select)]
+#use the first 11 years(132 observations) for training
+training = birth_split[1:132]
+#use the last 1 year(12 observations) for testing
+testing = birth_split[133:144]
+
+```
+## 8. Generating Uniform distribution and calculate the mean.
+```{r}
+observations = runif(1000,-1,1)
+mean(observations)
+```
+

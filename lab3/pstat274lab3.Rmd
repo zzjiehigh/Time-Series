@@ -1,0 +1,86 @@
+---
+title: "pstat_lab3_zejie"
+output: pdf_document
+date: "2023-10-20"
+latex_engine: xelatex
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## 1. Consider the AR(2) model below:
+\[
+X_t = 0.8X_{t-1} - 0.12X_{t-2} + Z_t, \quad \text{where} \quad Z_t \text{  iid } \sim N(0,1)
+\]
+(a) Express the model in terms of the back shift operator, B.
+
+\[\left(1-0.8 B+0.12 B^2\right) X_t=Z_t
+\]
+
+(b) Determine whether the model is causal and/or invertible. (Hint: use polyroot()).
+```{r}
+polyroot(c(1,-0.8,0.12))
+```
+In autoregressive models, invertibility is inherent. For the given process, the AR polynomial is given by $\phi(z) = 1 - 0.8z + 0.12z^2 = (1 - 0.6z)(1 - 0.2z)$ and is therefore zero at z = 1.67 and z = 5. Since both of these values are outside the unit circle, we deduce that $X_t$ represents a causal AR(2) process."
+
+(c) We simulate 200 observations from this AR(2) model with the following code:
+```{r}
+set.seed(1234)
+ar2 <- arima.sim(model = list(ar = c(0.8,-0.12),sd = 1),n = 200)
+```
+
+Plot the sample as well as theoretical ACF and PACF. 
+```{r}
+theo_acf <- ARMAacf(ar = c(0.8,-0.12),lag.max = 20, pacf = FALSE) 
+op <- par(mfrow = c(1,2))
+# Theoretical ACF
+plot(theo_acf,type = "h",ylim = c(-1,1),
+main = "Theoretical ACF",
+col = "red",
+ylab = expression(rho[X](h)), xlab = "h")
+abline(h = 0) # Add horizontal line
+# Sample ACF
+acf(ar2,lag.max = 20,
+main = "Sample ACF",
+ylim = c(-1,1),
+xlab = "h",
+ylab = expression(hat(rho)[X](h)))
+```
+```{r}
+theo_pacf <- ARMAacf(ar = c(0.8,-0.12),lag.max = 20, pacf = TRUE)
+op <- par(mfrow = c(1,2))
+plot(theo_pacf,type = "h",ylim = c(-1,1),
+main = "Theoretical PACF",
+col = "red",
+ylab = expression(rho[X](h)), xlab = "h") 
+abline(h = 0) # Add horizontal line
+# Sample PACF
+pacf(ar2,lag.max = 20,
+main = "Sample PACF",
+ylim = c(-1,1),
+xlab = "h",
+ylab = expression(hat(rho)[X](h)))
+```
+
+(d) Compare ACF and PACF plots in (c).
+AR models are characterized by PACF=0 after lag p but ACFs do not become zeros. In the AR(2) model, theoretical PACFs cut off after lag k=2.
+
+```{r}
+pgamma(45,4,1/30)
+```
+
+
+
+```{r}
+(1-ppois(10,5))+dpois(10,5)
+```
+
+```{r}
+dpois(25,20)*30+45
+```
+
+```{r}
+1/0.00015
+```
+
